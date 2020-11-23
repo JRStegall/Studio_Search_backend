@@ -7,62 +7,16 @@ const cors = require('cors');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const aws = require('aws-sdk');
-
-let s3 = new aws.S3({
-    accessKeyId: (process.env && process.env.S3_KEY) ? process.env.S3_KEY : 'locals3key',
-    secretAccessKey: (process.env && process.env.S3_SECRET) ? process.env.S3_SECRET : 'locals3key'
-  });
-  
-// Step 1: This checks if (process.env && process.env.S3_KEY) exists. If it doesn, it will use process.env.S3_KEY that is assigned in Heroku
-// Step 2: Otherwise it will use whatever value you need for your local host, in the above example is: 'locals3key'
-
-app.get('/', (req, res)=>{
-    res.sendFile(__dirname + '/index.html');
-})
-
-io.on('connection', (socket) => {
-    console.log('a user connected');
-  });
-
-io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-    //   io.emit('chat message', msg);
-      console.log('message: ' + msg);
-    });
-  });
-
-// http.listen(3000, ()=>{
-//     console.log('listening on *:3000');
-// })
+const pgp = require('pg-promise')(initOptions);
+const db = pgp(config);
 
 app.use(cors());
-
-// for bcrypt hashing
-const saltRounds = 10;
-
-const portNumber = process.env.PORT || 4000;
 
 // pg-promise initialization options:
 const initOptions = {
     // Use a custom promise library, instead of the default ES6 Promise:
     promiseLib: promise,
 };
-
-
-// Database connection parameters:
-const config = {
-    host: 'localhost',
-    port: 5432,
-    database: 'capstone',
-    user: 'jeremy',
-    password: ''
-};
-
-// Load and initialize pg-promise:
-const pgp = require('pg-promise')(initOptions);
-
-// Create the database instance:
-const db = pgp(config);
 
 // Session manager
 app.use(session({
@@ -79,6 +33,59 @@ app.use(express.urlencoded({
     extended: false
 }));
 app.use(express.json());
+
+
+
+
+// let s3 = new aws.S3({
+//     accessKeyId: (process.env && process.env.S3_KEY) ? process.env.S3_KEY : 'locals3key',
+//     secretAccessKey: (process.env && process.env.S3_SECRET) ? process.env.S3_SECRET : 'locals3key'
+//   });
+  
+// Step 1: This checks if (process.env && process.env.S3_KEY) exists. If it doesn, it will use process.env.S3_KEY that is assigned in Heroku
+// Step 2: Otherwise it will use whatever value you need for your local host, in the above example is: 'locals3key'
+
+app.get('/', (req, res)=>{
+    res.json({succes:"success"});
+})
+
+// io.on('connection', (socket) => {
+//     console.log('a user connected');
+//   });
+
+// io.on('connection', (socket) => {
+//     socket.on('chat message', (msg) => {
+//     //   io.emit('chat message', msg);
+//       console.log('message: ' + msg);
+//     });
+//   });
+
+// http.listen(3000, ()=>{
+//     console.log('listening on *:3000');
+// })
+
+
+// for bcrypt hashing
+const saltRounds = 10;
+
+const portNumber = process.env.PORT || 4000;
+
+
+
+
+// Database connection parameters:
+const config = {
+    host: 'localhost',
+    port: 5432,
+    database: 'capstone',
+    user: 'jeremy',
+    password: ''
+};
+
+// Load and initialize pg-promise:
+
+// Create the database instance:
+
 
 
 // ---------------- Beginning of Routes ---------------- //
