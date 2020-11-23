@@ -13,6 +13,15 @@ const initOptions = {
     promiseLib: promise,
 };
 const pgp = require('pg-promise')(initOptions);
+
+// Database connection parameters:
+const config = {
+    host: 'localhost',
+    port: 5432,
+    database: 'capstone',
+    user: 'jeremy',
+    password: ''
+};
 const db = pgp(config);
 
 app.use(cors());
@@ -74,14 +83,7 @@ const portNumber = process.env.PORT || 4000;
 
 
 
-// Database connection parameters:
-const config = {
-    host: 'localhost',
-    port: 5432,
-    database: 'capstone',
-    user: 'jeremy',
-    password: ''
-};
+
 
 // Load and initialize pg-promise:
 
