@@ -7,16 +7,17 @@ const cors = require('cors');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const aws = require('aws-sdk');
-const pgp = require('pg-promise')(initOptions);
-const db = pgp(config);
-
-app.use(cors());
-
 // pg-promise initialization options:
 const initOptions = {
     // Use a custom promise library, instead of the default ES6 Promise:
     promiseLib: promise,
 };
+const pgp = require('pg-promise')(initOptions);
+const db = pgp(config);
+
+app.use(cors());
+
+
 
 // Session manager
 app.use(session({
