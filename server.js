@@ -17,12 +17,17 @@ let s3 = new aws.S3({
 // Step 2: Otherwise it will use whatever value you need for your local host, in the above example is: 'locals3key'
 
 app.get('/', (req, res)=>{
-    res.sendFile(__dirname + 'index.html');
+    res.sendFile(__dirname + '/index.html');
 })
 
 io.on('connection', (socket) => {
+    console.log('a user connected');
+  });
+
+io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
-      io.emit('chat message', msg);
+    //   io.emit('chat message', msg);
+      console.log('message: ' + msg);
     });
   });
 
