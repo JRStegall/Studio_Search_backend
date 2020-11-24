@@ -1,32 +1,45 @@
 const express = require('express');
 const app = express();
-const promise = require('bluebird');
+const path = require('path');
+// const urlShortener = require('node-url-shortener');
 const bcrypt = require('bcrypt');
+const promise = require('bluebird');
 const session = require('express-session');
 const cors = require('cors');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const aws = require('aws-sdk');
-// pg-promise initialization options:
-const initOptions = {
-    // Use a custom promise library, instead of the default ES6 Promise:
-    promiseLib: promise,
-};
-const pgp = require('pg-promise')(initOptions);
-
+// const aws = require('aws-sdk');
 // Database connection parameters:
 const config = {
     host: 'localhost',
     port: 5432,
     database: 'capstone',
-    user: 'jeremy',
-    password: ''
+    user: 'jeremy'
 };
-const db = pgp(config);
+const portNumber = process.env.PORT || 4000;
+const initOptions = {	
+    // Use a custom promise library, instead of the default ES6 Promise:	
+    promiseLib: promise,	
+};
+const pgp = require('pg-promise')(initOptions);
+const db = pgp(`postgresql://jeremy@localhost:${portNumber}/capstone`);
+const bodyParser = require('body-parser');
+
+
+
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.urlencoded());
+
+
+
+
 
 app.use(cors());
 
-
+app.use(express.urlencoded({
+    extended: false
+}));
 
 // Session manager
 app.use(session({
@@ -39,9 +52,7 @@ app.use(session({
 }));
 
 
-app.use(express.urlencoded({
-    extended: false
-}));
+
 app.use(express.json());
 
 
@@ -55,9 +66,10 @@ app.use(express.json());
 // Step 1: This checks if (process.env && process.env.S3_KEY) exists. If it doesn, it will use process.env.S3_KEY that is assigned in Heroku
 // Step 2: Otherwise it will use whatever value you need for your local host, in the above example is: 'locals3key'
 
-app.get('/', (req, res)=>{
-    res.json({succes:"success"});
-})
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '../studio_db/build'));
+  });
+  
 
 // io.on('connection', (socket) => {
 //     console.log('a user connected');
@@ -78,7 +90,7 @@ app.get('/', (req, res)=>{
 // for bcrypt hashing
 const saltRounds = 10;
 
-const portNumber = process.env.PORT || 4000;
+
 
 
 
