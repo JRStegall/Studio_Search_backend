@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt');
 const promise = require('bluebird');
 const session = require('express-session');
 const cors = require('cors');
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+// const http = require('http').createServer(app);
+// const io = require('socket.io')(http);
 // const aws = require('aws-sdk');
 // Database connection parameters:
 const config = {
@@ -22,18 +22,13 @@ const initOptions = {
     promiseLib: promise,	
 };
 const pgp = require('pg-promise')(initOptions);
-const db = pgp(`postgresql://jeremy@localhost:${portNumber}/capstone`);
+const db = pgp(config);
 const bodyParser = require('body-parser');
 
 
+// app.use(bodyParser.urlencoded());
 
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.urlencoded());
-
-
-
-
+// app.use(express.urlencoded({extended: true}));
 
 app.use(cors());
 
@@ -52,10 +47,12 @@ app.use(session({
 }));
 
 
-
 app.use(express.json());
 
-
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '../studio_db/build'));
+  });
+  
 
 
 // let s3 = new aws.S3({
@@ -66,10 +63,7 @@ app.use(express.json());
 // Step 1: This checks if (process.env && process.env.S3_KEY) exists. If it doesn, it will use process.env.S3_KEY that is assigned in Heroku
 // Step 2: Otherwise it will use whatever value you need for your local host, in the above example is: 'locals3key'
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '../studio_db/build'));
-  });
-  
+
 
 // io.on('connection', (socket) => {
 //     console.log('a user connected');
@@ -93,33 +87,7 @@ const saltRounds = 10;
 
 
 
-
-
-
-
-// Load and initialize pg-promise:
-
-// Create the database instance:
-
-
-
 // ---------------- Beginning of Routes ---------------- //
-
-
-// -------Get ID, LAT, LNG from database ----------- //
-app.get('/map', (req, res) => {
-    db.query(`SELECT * FROM recording_studios WHERE recording_studios.lat = '${req.body.lat}' && recording_studios.lng = '${req.body.lng}'`)
-        .then((results) => {
-            db.query(`SELECT * FROM rehearsal_studios WHERE rehearsal_studios.lat = '${req.body.lat}' && rehearsal_studios.lng = '${req.body.lng}'`)
-                .then((results2) => {
-                    let combinedRes = { ...results, ...results2 }
-                    console.log(results);
-                    console.log(results2);
-                    res.json(combinedRes);
-                })
-        });
-})
-
 
 
 // ---------- Recording Stuios ----------//
