@@ -4,7 +4,7 @@ const path = require('path');
 // const urlShortener = require('node-url-shortener');
 const bcrypt = require('bcrypt');
 const promise = require('bluebird');
-const session = require('express-session');
+const session = require('cookie-session');
 const cors = require('cors');
 // const http = require('http').createServer(app);
 // const io = require('socket.io')(http);
@@ -24,11 +24,6 @@ const initOptions = {
 const pgp = require('pg-promise')(initOptions);
 const db = pgp(config);
 const bodyParser = require('body-parser');
-
-
-// app.use(bodyParser.urlencoded());
-
-// app.use(express.urlencoded({extended: true}));
 
 app.use(cors());
 
