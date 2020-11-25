@@ -46,9 +46,7 @@ app.use(session({
 
 app.use(express.json());
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '../studio_db/build'));
-  });
+
   
 
 
@@ -332,7 +330,9 @@ function authenticatedMiddleware(req, res, next) {
     }
 }
 
-
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname + '../studio_db/build'));
+  });
 
 
 app.listen(portNumber, function () {
