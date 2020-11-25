@@ -11,10 +11,11 @@ const cors = require('cors');
 // const aws = require('aws-sdk');
 // Database connection parameters:
 const config = {
-    host: 'localhost',
+    host: 'ec2-34-202-65-210.compute-1.amazonaws.com',
     port: 5432,
-    database: 'capstone',
-    user: 'jeremy'
+    database: 'd4dvadqoek18do',
+    user: 'vxhczgiwwksovt',
+    password: 'd114e076ad736cb71e9e132af85c6152966ba3868790a42aa2fac76afe643205'
 };
 const portNumber = process.env.PORT || 4000;
 const initOptions = {	
