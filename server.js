@@ -330,9 +330,9 @@ function authenticatedMiddleware(req, res, next) {
     }
 }
 
-app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname + '../studio_db/build'));
-  });
+// app.get('*', function(req, res) {
+//     res.sendFile(path.join(__dirname + '../studio_db/build'));
+//   });
 
 
 app.listen(portNumber, function () {
