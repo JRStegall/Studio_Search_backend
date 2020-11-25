@@ -15,7 +15,8 @@ const config = {
     port: 5432,
     database: 'd4dvadqoek18do',
     user: 'vxhczgiwwksovt',
-    password: 'd114e076ad736cb71e9e132af85c6152966ba3868790a42aa2fac76afe643205'
+    password: 'd114e076ad736cb71e9e132af85c6152966ba3868790a42aa2fac76afe643205',
+    ssl: true
 };
 const portNumber = process.env.PORT || 4000;
 const initOptions = {	
